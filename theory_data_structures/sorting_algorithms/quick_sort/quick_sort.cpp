@@ -3,7 +3,6 @@
 using namespace std;
 
 void quickSort(int* elements, int start, int end);
-int quickSort2(int* elements, int start, int end);
 void show(int* elements, int length);
 void swap(int *a, int *b);
 
@@ -49,15 +48,6 @@ void swap(int *a, int *b) {
   *a = *b;
   *b = tmp;
 }
-
-int quickSort2(int* elements, int start, int end) {
-  if (start < end) {
-    int middle = (start + end) / 2;
-    quickSort(elements, start, middle);
-    quickSort(elements, middle, end + 1);
-  }
-}
-
 void show(int* elements, int length) {
   for (int i = 0; i < length; i++) {
     cout << elements[i] << " ";
