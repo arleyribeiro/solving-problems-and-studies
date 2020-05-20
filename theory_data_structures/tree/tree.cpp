@@ -19,9 +19,10 @@ class Tree {
         return root == NULL;
     }
     void insert(int data);
-    void inOrder(struct node *node);
-    void preOrder(struct node *node);
-    void posOrder(struct node *node);
+    void inOrder(node *root);
+    void preOrder(node *root);
+    void posOrder(node *root);
+    void transversalOrder(node *root);
 };
 
 void Tree::insert(int data) {
@@ -32,8 +33,7 @@ void Tree::insert(int data) {
     if (isEmpty()) {
         root = newNode;
     } else {
-        node *ptr = new node;
-        ptr = root;
+        node *ptr = root;
         node *parent;
         while(ptr != NULL) {
             parent = ptr;
@@ -51,31 +51,50 @@ void Tree::insert(int data) {
     }
 }
 
-void Tree::inOrder(node *node) {
-    if (node == NULL) {
+void Tree::inOrder(node *root) {
+    if (root == NULL) {
         return;
     }
-    inOrder(node->left);
-    cout << node->data << " ";
-    inOrder(node->right);
+    inOrder(root->left);
+    cout << root->data << " ";
+    inOrder(root->right);
 }
 
-void Tree::posOrder(node *node) {
-    if (node == NULL) {
+void Tree::posOrder(node *root) {
+    if (root == NULL) {
         return;
     }
-    posOrder(node->left);
-    posOrder(node->right);
-    cout << node->data << " ";
+    posOrder(root->left);
+    posOrder(root->right);
+    cout << root->data << " ";
 }
 
-void Tree::preOrder(node *node) {
-    if (node == NULL) {
+void Tree::preOrder(node *root) {
+    if (root == NULL) {
         return;
     }
-    cout << node->data << " ";
-    preOrder(node->left);
-    preOrder(node->right);
+    cout << root->data << " ";
+    preOrder(root->left);
+    preOrder(root->right);
+}
+
+void Tree::transversalOrder(node *root) {
+    if (root == NULL) {
+        return;
+    }
+    vector<node*> searchNodes;
+    searchNodes.push_back(root);
+    while(searchNodes.size()) {
+        node *ptr = searchNodes[0];
+        searchNodes.erase(searchNodes.begin());
+        cout << ptr->data << " ";
+        if (ptr->left != NULL) {
+            searchNodes.push_back(ptr->left);
+        }
+        if (ptr->right != NULL) {
+            searchNodes.push_back(ptr->right);
+        }
+    } 
 }
 
 int main() {
@@ -93,6 +112,9 @@ int main() {
     cout << endl;
     cout << "posOrder: "; 
     tree.posOrder(tree.root);
+    cout << endl;    
+    cout << "transversalOrder: "; 
+    tree.transversalOrder(tree.root);
     cout << endl;
     return 0;
 }
