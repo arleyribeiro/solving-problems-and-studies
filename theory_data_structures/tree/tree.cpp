@@ -79,7 +79,12 @@ node* Tree::removeNode(int data, node* root) {
         root->right = removeNode(data, root->right);
     } else {
         node *tmp;
-        if (root->left == NULL) {
+        if(root->left != NULL && root->right != NULL) {
+            tmp = minNodeValue(root->right);
+            cout << tmp->data << endl;
+            root->data = tmp->data;
+            root->right = removeNode(tmp->data, root->right);    
+        } else if (root->left == NULL) {
             tmp = root->right;
             free(root);
             return tmp;
@@ -88,11 +93,6 @@ node* Tree::removeNode(int data, node* root) {
             free(root);
             return tmp;
         }
-
-        tmp = minNodeValue(root->right);
-        root->data = tmp->data;
-
-        root->right = removeNode(data, root->right);    
     }
     return root;
 }
@@ -159,7 +159,11 @@ int main() {
     cout << "posOrder: "; 
     tree.posOrder(tree.root);
     cout << endl;
-    tree.remove(5);   
+    tree.remove(6);
+    cout << "transversalOrder: "; 
+    tree.transversalOrder(tree.root);
+    cout << endl;
+    tree.remove(6);   
     cout << "transversalOrder: "; 
     tree.transversalOrder(tree.root);
     cout << endl;
