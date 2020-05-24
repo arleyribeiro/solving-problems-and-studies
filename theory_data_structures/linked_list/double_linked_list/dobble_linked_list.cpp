@@ -20,7 +20,7 @@ class List {
       return (head->previous == NULL && head->next == NULL);
     }
     void insert(int data);
-    void show();
+    void show(bool inverseOrder);
 };
 
 void List::insert(int data) {
@@ -39,22 +39,34 @@ void List::insert(int data) {
       parent = ptr;
       ptr = ptr->next;
     }
-    parent->next = no;
     no->previous = parent;
+    parent->next = no;
   }
 }
 
-void List::show() {
+void List::show(bool inverseOrder) {
   if (isEmpty()) {
     return;
   }
   node *parent = head;
   node *ptr = head->next;
   while(ptr != NULL) {
+    parent = ptr;
     cout << ptr->data << " ";
-    ptr = ptr->next;
+    ptr = ptr->next;  
   }
   cout << endl;
+  if (inverseOrder) {
+    cout << "List inverse order: ";
+    node *ptr = parent->previous;
+    while(ptr != NULL) {
+      if (ptr->previous != NULL) {
+        cout << ptr->data << " ";
+      }
+      ptr = ptr->previous;
+    }
+    cout << endl;
+  }
 }
 
 int main() {
@@ -64,6 +76,6 @@ int main() {
   list.insert(3);
   list.insert(4);
   list.insert(5);
-  list.show();
+  list.show(true);
   return 0;
 }
