@@ -71,7 +71,6 @@ void List::remove(int data) {
     parent = ptr;
     ptr = ptr->next;
   }
-  cout << endl;
 }
 
 int main () {
