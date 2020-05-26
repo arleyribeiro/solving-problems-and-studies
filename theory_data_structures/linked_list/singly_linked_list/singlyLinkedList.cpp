@@ -1,37 +1,52 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-
+/*
 struct node {
   int data;
-  node *next = NULL;
+  node *next = nullptr;
+};
+*/
+class Node {
+  public:
+      int data;
+      Node *next;
+
+      Node () {}
+      Node(int node_data) {
+          this->data = node_data;
+          this->next = nullptr;
+      }
 };
 
 class List {
-  node * head = new node;
+  Node * head = new Node();
+  int length;
   public:
     List() {
-      head->next = NULL;
+      head->next = nullptr;
+      length = 0;
     };
     bool isEmpty() {
-      return head->next == NULL;
+      return head->next == nullptr;
     }
     void insert(int data);
     void remove(int data);
+    void insertNodeAtPosition(int data, int position);
     void show();
+    int size();
 };
 
 void List::insert(int data) {
-  node *no = new node;
-  no->data = data;
-  no->next = NULL;
+  Node *no = new Node(data);
+  length++;
   if (isEmpty()) {
     head->next = no;
     return;
   }
-  node *parent;
-  node *ptr = head->next;
-  while(ptr != NULL) {
+  Node *parent;
+  Node *ptr = head->next;
+  while(ptr != nullptr) {
     parent = ptr;
     ptr = ptr->next;
   }
@@ -42,28 +57,61 @@ void List::show() {
   if (isEmpty()) {
     return;
   }
-  node *ptr = head->next;
-  while(ptr != NULL) {
+  Node *ptr = head->next;
+  while(ptr != nullptr) {
     cout << ptr->data << " ";
     ptr = ptr->next;
   }
   cout << endl;
 }
 
+int List::size() {
+  return length;
+}
+
+void List::insertNodeAtPosition(int data, int position) {
+  if (position > (this->size() - 1) || position < 0) {
+    cout << "Index of out range" << endl;
+    return;
+  }
+  if (isEmpty()) {
+    head = new Node(data);
+  } else {
+    int count = 0;
+    Node *node = new Node(data);
+    Node *ptr = head->next, *parent = head;
+    while (ptr != nullptr) {
+      if (count == position) {
+        parent->next = node;
+        node->next = ptr;
+      } else {
+        if (ptr->next == nullptr && (count + 1) == position) {
+          parent->next = node;
+          node->next = ptr;
+        }
+      }
+      count++;
+      parent = ptr;
+      ptr = ptr->next;
+    }
+  }
+}
+
 void List::remove(int data) {
   if (isEmpty()) {
     return;
   }
-  node *parent = head;
-  node *ptr = head->next;
-  while(ptr != NULL) {
+  Node *parent = head;
+  Node *ptr = head->next;
+  while(ptr != nullptr) {
     if (ptr->data == data) {
-      node *next = new node;      
-      if (ptr->next != NULL) {
+      length--;
+      Node *next;      
+      if (ptr->next != nullptr) {
         next = ptr->next;
         parent->next = next;
       } else {
-        parent->next = NULL;
+        parent->next = nullptr;
       }
       free(ptr);
       return;
@@ -95,6 +143,11 @@ int main () {
   list.show();
   list.remove(1);
   list.show();
+  list.insertNodeAtPosition(1, 0);
+  list.show();
+  list.insertNodeAtPosition(5, 4);
+  list.show();
+  list.insertNodeAtPosition(9, 8);
 
   return 0;
 }
