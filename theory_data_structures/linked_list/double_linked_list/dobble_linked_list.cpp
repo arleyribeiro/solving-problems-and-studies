@@ -4,8 +4,8 @@ using namespace std;
 
 struct node {
   int data;
-  node *next = NULL;
-  node *previous = NULL;
+  node *next = nullptr;
+  node *previous = nullptr;
 };
 
 class List {
@@ -14,11 +14,11 @@ class List {
     int length = 0;
   public:
     List() {
-      head->next = NULL;
-      head->previous = NULL;
+      head->next = nullptr;
+      head->previous = nullptr;
     };
     bool isEmpty() {
-      return (head->previous == NULL && head->next == NULL);
+      return (head->previous == nullptr && head->next == nullptr);
     }
     void insert(int data);
     void show(bool inverseOrder);
@@ -30,8 +30,8 @@ class List {
 void List::insert(int data) {
   node *no = new node;
   no->data = data;
-  no->next = NULL;
-  no->previous = NULL;
+  no->next = nullptr;
+  no->previous = nullptr;
   length++;
   if (isEmpty()) {
     head->next = no;
@@ -39,7 +39,7 @@ void List::insert(int data) {
   } else {
     node *parent = head;
     node *ptr = head->next;
-    while(ptr != NULL) {
+    while(ptr != nullptr) {
       parent = ptr;
       ptr = ptr->next;
     }
@@ -54,10 +54,10 @@ void List::remove(int data) {
   }
   node *parent = head;
   node *ptr = head->next;
-  while (ptr != NULL) {
+  while (ptr != nullptr) {
     if(ptr->data == data) {
-      if (ptr->next == NULL) {
-        ptr->previous->next = NULL;
+      if (ptr->next == nullptr) {
+        ptr->previous->next = nullptr;
       } else {
         parent->next = ptr->next;
         ptr->next->previous = parent;
@@ -85,20 +85,20 @@ void List::removeByIndex(int index) {
   {
     if (count == index)
     {
-      if (index == 0 && ptr->next != nullptr)
+      if (index == 0)
       {
-        head->next = ptr->next;
-        ptr->next->previous = head;
-      } else {
+        if (ptr->next == nullptr) {
+          head->next = nullptr;
+        } else {
+          ptr->next->previous = head;
+          head->next = ptr->next;
+        }
+      } else if(ptr->next != nullptr) {
         parent->next = ptr->next;
         ptr->next->previous = parent;
+      } else {
+        parent->next = nullptr;
       }
-      free(ptr);
-      break;
-    }
-    else if (ptr->next == nullptr && (count + 1) == index)
-    {
-      parent->next = NULL;
       free(ptr);
       break;
     }
@@ -110,14 +110,12 @@ void List::removeByIndex(int index) {
 
 void List::show(bool inverseOrder) {
   if (isEmpty()) {
-    head->next = NULL;
-    head->previous = NULL;
     cout << "Empty list!" << endl;
     return;
   }
   node *parent = head;
   node *ptr = head->next;
-  while(ptr != NULL) {
+  while(ptr != nullptr) {
     parent = ptr;
     cout << ptr->data << " ";
     ptr = ptr->next;  
@@ -126,8 +124,8 @@ void List::show(bool inverseOrder) {
   if (inverseOrder) {
     cout << "List inverse order: ";
     node *ptr = parent;
-    while(ptr != NULL) {
-      if (ptr->previous != NULL) {
+    while(ptr != nullptr) {
+      if (ptr->previous != nullptr) {
         cout << ptr->data << " ";
       }
       ptr = ptr->previous;
@@ -168,10 +166,13 @@ int main() {
   list.insert(5);
   cout << list.size() << endl;
   list.removeByIndex(4);
+  list.show(true);
   list.removeByIndex(3);
   list.removeByIndex(2);
   list.removeByIndex(1);
   list.removeByIndex(0);
+
+  list.show(true);
 
   list.insert(1);
   list.insert(2);
@@ -180,7 +181,7 @@ int main() {
   list.insert(5);
   list.show(true);
 
-  list.removeByIndex(0);
+  list.removeByIndex(4);
   list.removeByIndex(1);
   list.removeByIndex(2);
   list.removeByIndex(1);
