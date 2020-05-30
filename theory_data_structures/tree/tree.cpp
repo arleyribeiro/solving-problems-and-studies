@@ -4,19 +4,19 @@ using namespace std;
 
 struct node {
     int data;
-    node *left = NULL;
-    node *right = NULL;
+    node *left = nullptr;
+    node *right = nullptr;
 };
 
 class Tree {
     public:
     struct node *root;
     Tree() {
-        root = NULL;
+        root = nullptr;
     }
 
     bool isEmpty() {
-        return root == NULL;
+        return root == nullptr;
     }
     void insert(int data);
     void remove(int data);
@@ -33,14 +33,14 @@ class Tree {
 void Tree::insert(int data) {
     node *newNode = new node;
     newNode->data = data;
-    newNode->left = NULL;
-    newNode->right = NULL;
+    newNode->left = nullptr;
+    newNode->right = nullptr;
     if (isEmpty()) {
         root = newNode;
     } else {
         node *ptr = root;
         node *parent;
-        while(ptr != NULL) {
+        while(ptr != nullptr) {
             parent = ptr;
             if (data < ptr->data) {
                 ptr = ptr->left;
@@ -62,14 +62,14 @@ void Tree::remove(int data) {
 
 node * Tree::minNodeValue(node *root) {
     node *current = root;
-    while(current && current->left != NULL) {
+    while(current && current->left != nullptr) {
         current = current->left;
     }
     return current;
 }
 
 node* Tree::removeNode(int data, node* root) {  
-    if (root == NULL) {
+    if (root == nullptr) {
         return root;
     }
 
@@ -79,16 +79,16 @@ node* Tree::removeNode(int data, node* root) {
         root->right = removeNode(data, root->right);
     } else {
         node *tmp;
-        if(root->left != NULL && root->right != NULL) {
+        if(root->left != nullptr && root->right != nullptr) {
             tmp = minNodeValue(root->right);
             cout << tmp->data << endl;
             root->data = tmp->data;
             root->right = removeNode(tmp->data, root->right);    
-        } else if (root->left == NULL) {
+        } else if (root->left == nullptr) {
             tmp = root->right;
             free(root);
             return tmp;
-        } else if (root->right == NULL) {
+        } else if (root->right == nullptr) {
             tmp = root->left;
             free(root);
             return tmp;
@@ -98,7 +98,7 @@ node* Tree::removeNode(int data, node* root) {
 }
 
 void Tree::inOrder(node *root) {
-    if (root == NULL) {
+    if (root == nullptr) {
         return;
     }
     inOrder(root->left);
@@ -107,7 +107,7 @@ void Tree::inOrder(node *root) {
 }
 
 void Tree::posOrder(node *root) {
-    if (root == NULL) {
+    if (root == nullptr) {
         return;
     }
     posOrder(root->left);
@@ -116,7 +116,7 @@ void Tree::posOrder(node *root) {
 }
 
 void Tree::preOrder(node *root) {
-    if (root == NULL) {
+    if (root == nullptr) {
         return;
     }
     cout << root->data << " ";
@@ -125,7 +125,7 @@ void Tree::preOrder(node *root) {
 }
 
 void Tree::transversalOrder(node *root) {
-    if (root == NULL) {
+    if (root == nullptr) {
         return;
     }
     vector<node*> searchNodes;
@@ -134,10 +134,10 @@ void Tree::transversalOrder(node *root) {
         node *ptr = searchNodes[0];
         searchNodes.erase(searchNodes.begin());
         cout << ptr->data << " ";
-        if (ptr->left != NULL) {
+        if (ptr->left != nullptr) {
             searchNodes.push_back(ptr->left);
         }
-        if (ptr->right != NULL) {
+        if (ptr->right != nullptr) {
             searchNodes.push_back(ptr->right);
         }
     } 
